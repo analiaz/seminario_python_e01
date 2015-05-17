@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pilasengine
+import juego
 
 
 ANCHO = 2751
@@ -56,6 +57,7 @@ class PantallaJuego(pilasengine.escenas.Escena):
 
     def iniciar(self, nombre, coordenadas):
         camino = [juego.Punto(c, f) for f, c in coordenadas]
+        self.partida = juego.Juego(nombre, camino)
 
         self.fondo = self.pilas.fondos.Fondo()
         self.fondo.imagen = (
@@ -101,11 +103,29 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.boton_probar.escala = 2
         self.boton_probar.conectar(self.probar_punto)
 
+        self.etiquetas = []
+
     def probar_punto(self):
         if ((self.input_fila.texto != "" and
              self.input_columna.texto != "")):
             fila = int(self.input_fila.texto)
             columna = int(self.input_columna.texto)
-            print("{}, {}".format(fila, columna))
+            if (self.partida.probar_movimiento(juego.Punto(columna, fila))):
+                self.boton_probar.decir("Correcto")
+
+                # Mostramos la posicion descuebierta en el mapa
+                etiqueta = self.pilas.actores.Texto("({},{})"
+                                                    .format(columna, fila))
+                etiqueta.x = col_a_x(columna)
+                etiqueta.y = fil_a_y(fila)
+                etiqueta.color = pilasengine.colores.magenta
+                etiqueta.escala = 2
+                self.etiquetas.append(etiqueta)
+
+                # Se vacian las cajas de entrada
+                self.input_columna.texto = ""
+                self.input_fila.texto = ""
+            else:
+                self.boton_probar.decir("Incorrecto")
         else:
             self.boton_probar.decir("invalido")
