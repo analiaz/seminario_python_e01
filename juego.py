@@ -68,6 +68,8 @@ class Juego:
       jugador (str): Nombre del jugador
       moves (list of Punto): Puntos ya descubiertos por el jugador
       camino_id (str): Identificador del camino seleccionado
+      hist (dict of (str, str) : (list of Punto)):
+        guarda partidas como pares (jugador, camino_id): moves
     """
     def __init__(self, jugador, camino, camino_id):
         self.camino = camino
@@ -123,18 +125,17 @@ class Juego:
 
     def guardar_juego(self):
         """
-        Guarda los datos de la partida en un archivo
-
-        Args:
-          path (str): direccion del archivo
+        Guarda el historial de partidas en el archivo
         """
-
         self.hist[(self.jugador, self.camino_id)] = self.moves
         archivo = open(_FILE_PATH, "wb")
         pickle.dump(self.hist, archivo)
         archivo.close()
 
     def cargar_juego(self):
+        """
+        Carga el historial de partidas desde el archivo
+        """
         archivo = open(_FILE_PATH, "rb")
         self.hist = pickle.load(archivo)
         archivo.close()

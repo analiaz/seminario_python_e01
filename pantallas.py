@@ -20,10 +20,20 @@ VELOCIDAD_MOVE = 2
 
 
 def fil_a_y(fila):
+    """
+    Convierte una fila desde coordenadas matriciales a su
+    coordenada cartesiana "y" equivalente.
+    Se aplica inversion de eje y luego desplazamiento.
+    """
     return (ALTO - fila) - ALTO // 2
 
 
 def col_a_x(columna):
+    """
+    Convierte una columna desde coordenadas matriciales a su
+    coordenada cartesiana "x" equivalente
+    Se aplica solo desplazamiento.
+    """
     return columna - ANCHO // 2
 
 
@@ -67,6 +77,9 @@ class PantallaInicial(pilasengine.escenas.Escena):
 class PantallaJuego(pilasengine.escenas.Escena):
     """
     Interfaz grafica principal del juego
+    Arguments
+      camino_id (str): eleccion de camino "rojo o negro"
+
     """
 
     def iniciar(self, nombre, camino_id):
@@ -187,6 +200,8 @@ class PantallaJuego(pilasengine.escenas.Escena):
         """
         self._posicionar_inicio()
 
+        # Se hace uso de Generator en vez de List Comprehension para mejorar
+        # performance, ya que evalua bajo demanda
         xs = (col_a_x(move.x) for move in self.partida.moves)
         ys = (fil_a_y(move.y) for move in self.partida.moves)
 
