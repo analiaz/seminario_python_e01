@@ -56,13 +56,10 @@ class PantallaJuego(pilasengine.escenas.Escena):
     """
 
     def iniciar(self, nombre, coordenadas):
+        self._crear_interfaz()
+
         camino = [juego.Punto(c, f) for f, c in coordenadas]
         self.partida = juego.Juego(nombre, camino)
-
-        self.fondo = self.pilas.fondos.Fondo()
-        self.fondo.imagen = (
-            self.pilas.imagenes.cargar('assets/fondo_juego.png')
-        )
 
         self.protagonista = self.pilas.actores.Actor(
             imagen='assets/personaje.png'
@@ -70,6 +67,14 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.protagonista.escala = 0.5
         self.protagonista.x = col_a_x(camino[0].x)
         self.protagonista.y = fil_a_y(camino[0].y)
+
+        self.etiquetas = []
+
+    def _crear_interfaz(self):
+        self.fondo = self.pilas.fondos.Fondo()
+        self.fondo.imagen = (
+            self.pilas.imagenes.cargar('assets/fondo_juego.png')
+        )
 
         self.label_fila = self.pilas.actores.Texto("Fila :")
         self.label_fila.centro = ("izquierda", "centro")
@@ -102,8 +107,6 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.boton_probar.y = fil_a_y(1200)
         self.boton_probar.escala = 2
         self.boton_probar.conectar(self.probar_punto)
-
-        self.etiquetas = []
 
     def probar_punto(self):
         if ((self.input_fila.texto != "" and
