@@ -14,6 +14,9 @@ RED_PATH = [(392, 2567), (40, 2188), (262, 1984), (128, 1836), (456, 1544),
             (232, 1292), (340, 1176), (132, 956), (238, 852), (158, 760),
             (168, 656)]
 
+# Cantidad de segundo que toma un movimiento del personaje
+VELOCIDAD_MOVE = 2
+
 
 def fil_a_y(fila):
     return (ALTO - fila) - ALTO // 2
@@ -65,10 +68,13 @@ class PantallaJuego(pilasengine.escenas.Escena):
             imagen='assets/personaje.png'
         )
         self.protagonista.escala = 0.5
-        self.protagonista.x = col_a_x(camino[0].x)
-        self.protagonista.y = fil_a_y(camino[0].y)
+        self._posicionar_inicio()
 
         self.etiquetas = []
+
+    def _posicionar_inicio(self):
+        self.protagonista.x = col_a_x(self.partida.camino[0].x)
+        self.protagonista.y = fil_a_y(self.partida.camino[0].y)
 
     def _crear_interfaz(self):
         self.fondo = self.pilas.fondos.Fondo()
@@ -104,9 +110,15 @@ class PantallaJuego(pilasengine.escenas.Escena):
 
         self.boton_probar = self.pilas.interfaz.Boton("Probar")
         self.boton_probar.x = col_a_x(800)
-        self.boton_probar.y = fil_a_y(1200)
+        self.boton_probar.y = fil_a_y(1150)
         self.boton_probar.escala = 2
         self.boton_probar.conectar(self.probar_punto)
+
+        self.boton_probar = self.pilas.interfaz.Boton("Recorrido")
+        self.boton_probar.x = col_a_x(800)
+        self.boton_probar.y = fil_a_y(1250)
+        self.boton_probar.escala = 2
+        self.boton_probar.conectar(self.mover_personaje)
 
     def probar_punto(self):
         if ((self.input_fila.texto != "" and
@@ -132,3 +144,14 @@ class PantallaJuego(pilasengine.escenas.Escena):
                 self.boton_probar.decir("Incorrecto")
         else:
             self.boton_probar.decir("invalido")
+
+    def mover_personaje(self):
+        """
+        Realiza animacion del recorrido, utilizando interpolacion de la forma:
+          coordenada = [lista de valores], velocidad
+        """
+        self._posicionar_inicio()
+
+        for move in self.partida.moves:
+            self.protagonista.x = [col_a_x(move.x)], VELOCIDAD_MOVE
+            self.protagonista.y = [fil_a_y(move.y)], VELOCIDAD_MOVE
