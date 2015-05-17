@@ -79,8 +79,11 @@ class Juego:
           mov (Punto): movimiento del jugador
         Returns:
           True si el movimiento se encuentra dentro del rango
-          False en caso contrario
+          False en caso contrario o fuera del limite
         """
+
+        if (self.pos_sig == len(self.camino)):
+            return False
 
         if (self.camino[self.pos_sig].distancia(mov) <= _MIN_DISTANCIA):
             self.moves.append(mov)
