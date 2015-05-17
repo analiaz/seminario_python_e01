@@ -118,11 +118,11 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.boton_probar.escala = 2
         self.boton_probar.conectar(self.probar_punto)
 
-        self.boton_probar = self.pilas.interfaz.Boton("Recorrido")
-        self.boton_probar.x = col_a_x(800)
-        self.boton_probar.y = fil_a_y(1250)
-        self.boton_probar.escala = 2
-        self.boton_probar.conectar(self.mover_personaje)
+        self.boton_recorrido = self.pilas.interfaz.Boton("Recorrido")
+        self.boton_recorrido.x = col_a_x(800)
+        self.boton_recorrido.y = fil_a_y(1250)
+        self.boton_recorrido.escala = 2
+        self.boton_recorrido.conectar(self.mover_personaje)
 
     def probar_punto(self):
         if ((self.input_fila.texto != "" and
