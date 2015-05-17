@@ -65,6 +65,7 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.label_fila.color = pilasengine.colores.negro
 
         self.input_fila = self.pilas.interfaz.IngresoDeTexto("")
+        self.input_fila.solo_numeros()
         self.input_fila.centro = ("izquierda", "centro")
         self.input_fila.x = col_a_x(120)
         self.input_fila.y = fil_a_y(1150)
@@ -77,7 +78,23 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.label_columna.color = pilasengine.colores.negro
 
         self.input_columna = self.pilas.interfaz.IngresoDeTexto("")
+        self.input_columna.solo_numeros()
         self.input_columna.centro = ("izquierda", "centro")
         self.input_columna.x = col_a_x(120)
         self.input_columna.y = fil_a_y(1250)
         self.input_columna.escala = 2
+
+        self.boton_probar = self.pilas.interfaz.Boton("Probar")
+        self.boton_probar.x = col_a_x(800)
+        self.boton_probar.y = fil_a_y(1200)
+        self.boton_probar.escala = 2
+        self.boton_probar.conectar(self.probar_punto)
+
+    def probar_punto(self):
+        if ((self.input_fila.texto != "" and
+             self.input_columna.texto != "")):
+            fila = int(self.input_fila.texto)
+            columna = int(self.input_columna.texto)
+            print("{}, {}".format(fila, columna))
+        else:
+            self.boton_probar.decir("invalido")
