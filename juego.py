@@ -4,7 +4,7 @@ import math
 import pickle
 
 # Ubicacion por default del archivo
-_FILE_PATH = "/tmp/juego.bin"
+_FILE_PATH = "./partidas.bin"
 
 # distancia requerida para que un movimiento sea valido
 _MIN_DISTANCIA = 20
