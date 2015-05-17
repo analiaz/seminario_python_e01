@@ -162,6 +162,8 @@ class PantallaJuego(pilasengine.escenas.Escena):
         """
         self._posicionar_inicio()
 
-        for move in self.partida.moves:
-            self.protagonista.x = [col_a_x(move.x)], VELOCIDAD_MOVE
-            self.protagonista.y = [fil_a_y(move.y)], VELOCIDAD_MOVE
+        xs = (col_a_x(move.x) for move in self.partida.moves)
+        ys = (fil_a_y(move.y) for move in self.partida.moves)
+
+        self.protagonista.x = xs, VELOCIDAD_MOVE
+        self.protagonista.y = ys, VELOCIDAD_MOVE
