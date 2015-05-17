@@ -3,6 +3,18 @@
 import pilasengine
 
 
+ANCHO = 2751
+ALTO = 1306
+
+
+def fil_a_y(fila):
+    return (ALTO - fila) - ALTO // 2
+
+
+def col_a_x(columna):
+    return columna - ANCHO // 2
+
+
 class PantallaInicial(pilasengine.escenas.Escena):
     """
     Pantalla de bienvenida, pide al jugador su nombre

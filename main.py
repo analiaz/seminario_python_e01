@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import pilasengine
+from pantallas import ANCHO, ALTO
 from pantallas import PantallaInicial, PantallaJuego
 
 # crea una instancia del motor de pilas
-pilas = pilasengine.iniciar(ancho=2700, alto=1500)
+pilas = pilasengine.iniciar(ancho=ANCHO, alto=ALTO)
 
 # añade las escenas al gestor de escenas
 pilas.escenas.vincular(PantallaInicial)
