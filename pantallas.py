@@ -6,6 +6,13 @@ import pilasengine
 ANCHO = 2751
 ALTO = 1306
 
+# Caminos (tuplas de fila y columna) posibles a seleccionar por el jugador
+BLACK_PATH = [(392, 2567), (444, 1992), (892, 1576), (688, 1332), (1008, 1040),
+              (656, 640), (436, 836), (272, 664), (168, 656)]
+RED_PATH = [(392, 2567), (40, 2188), (262, 1984), (128, 1836), (456, 1544),
+            (232, 1292), (340, 1176), (132, 956), (238, 852), (158, 760),
+            (168, 656)]
+
 
 def fil_a_y(fila):
     return (ALTO - fila) - ALTO // 2
@@ -35,7 +42,9 @@ class PantallaInicial(pilasengine.escenas.Escena):
     def ir_al_juego(self):
         # TO-DO: mejorar la validacion del nombre
         if (self.input_nombre.texto != ""):
-            self.pilas.escenas.PantallaJuego()
+            # TO-DO: añadir soporte para seleccionar camino
+            self.pilas.escenas.PantallaJuego(self.input_nombre.texto,
+                                             BLACK_PATH)
         else:
             self.boton_jugar.decir("El nombre es invalido")
 
@@ -45,7 +54,9 @@ class PantallaJuego(pilasengine.escenas.Escena):
     Interfaz grafica principal del juego
     """
 
-    def iniciar(self):
+    def iniciar(self, nombre, coordenadas):
+        camino = [juego.Punto(c, f) for f, c in coordenadas]
+
         self.fondo = self.pilas.fondos.Fondo()
         self.fondo.imagen = (
             self.pilas.imagenes.cargar('assets/fondo_juego.png')
@@ -55,8 +66,8 @@ class PantallaJuego(pilasengine.escenas.Escena):
             imagen='assets/personaje.png'
         )
         self.protagonista.escala = 0.5
-        self.protagonista.x = col_a_x(2567)
-        self.protagonista.y = fil_a_y(392)
+        self.protagonista.x = col_a_x(camino[0].x)
+        self.protagonista.y = fil_a_y(camino[0].y)
 
         self.label_fila = self.pilas.actores.Texto("Fila :")
         self.label_fila.centro = ("izquierda", "centro")
