@@ -66,8 +66,8 @@ class Juego:
     """
     def __init__(self, jugador, camino):
         self.pos_sig = 1  # el usuario ya esta en posicion 0
-        self.camino = camino,
-        self.jugador = jugador,
+        self.camino = camino
+        self.jugador = jugador
         self.moves = []
 
     def probar_movimiento(self, mov):
