@@ -56,6 +56,7 @@ class Juego:
     Args:
       jugador (str): Nombre del jugador
       camino (list of Punto): Puntos que el jugador debe encontrar
+      camino_id (str): Identificador del camino seleccionado
 
     Attributes:
       pos_sig (int): Ubicacion del punto a comparar con los movimientos.
@@ -63,12 +64,14 @@ class Juego:
       camino (list of Punto): Puntos que el jugador debe encontrar
       jugador (str): Nombre del jugador
       moves (list of Punto): Puntos ya descubiertos por el jugador
+      camino_id (str): Identificador del camino seleccionado
     """
-    def __init__(self, jugador, camino):
+    def __init__(self, jugador, camino, camino_id):
         self.pos_sig = 1  # el usuario ya esta en posicion 0
         self.camino = camino
         self.jugador = jugador
         self.moves = []
+        self.camino_id = camino_id
 
     def probar_movimiento(self, mov):
         """
@@ -108,5 +111,6 @@ class Juego:
 
         archivo = open(path, "wb")
         pickle.dump(self.jugador, archivo)
+        pickle.dump(self.camino_id, archivo)
         pickle.dump(self.moves, archivo)
         archivo.close()

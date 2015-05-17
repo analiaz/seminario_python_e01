@@ -13,6 +13,7 @@ BLACK_PATH = [(392, 2567), (444, 1992), (892, 1576), (688, 1332), (1008, 1040),
 RED_PATH = [(392, 2567), (40, 2188), (262, 1984), (128, 1836), (456, 1544),
             (232, 1292), (340, 1176), (132, 956), (238, 852), (158, 760),
             (168, 656)]
+PATHS = {"rojo": RED_PATH, "negro": BLACK_PATH}
 
 # Cantidad de segundo que toma un movimiento del personaje
 VELOCIDAD_MOVE = 2
@@ -42,7 +43,7 @@ class PantallaInicial(pilasengine.escenas.Escena):
         self.boton_negro.y -= 200
         self.boton_negro.escala = 2
         self.boton_negro.conectar(
-            lambda: self.ir_al_juego(BLACK_PATH)
+            lambda: self.ir_al_juego("negro")
         )
 
         self.boton_rojo = self.pilas.interfaz.Boton("Camino Rojo")
@@ -50,15 +51,15 @@ class PantallaInicial(pilasengine.escenas.Escena):
         self.boton_rojo.y -= 200
         self.boton_rojo.escala = 2
         self.boton_rojo.conectar(
-            lambda: self.ir_al_juego(RED_PATH)
+            lambda: self.ir_al_juego("rojo")
         )
 
     # cambia la escena si el usuario ingreso un nombre valido
-    def ir_al_juego(self, coordenadas):
+    def ir_al_juego(self, camino_id):
         # TO-DO: mejorar la validacion del nombre
         if (self.input_nombre.texto != ""):
             self.pilas.escenas.PantallaJuego(self.input_nombre.texto,
-                                             coordenadas)
+                                             camino_id)
         else:
             self.input_nombre.decir("El nombre es invalido")
 
@@ -68,11 +69,11 @@ class PantallaJuego(pilasengine.escenas.Escena):
     Interfaz grafica principal del juego
     """
 
-    def iniciar(self, nombre, coordenadas):
+    def iniciar(self, nombre, camino_id):
         self._crear_interfaz()
 
-        camino = [juego.Punto(c, f) for f, c in coordenadas]
-        self.partida = juego.Juego(nombre, camino)
+        camino = [juego.Punto(c, f) for f, c in PATHS[camino_id]]
+        self.partida = juego.Juego(nombre, camino, camino_id)
 
         self.protagonista = self.pilas.actores.Actor(
             imagen='assets/personaje.png'
