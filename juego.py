@@ -3,6 +3,9 @@
 import math
 import pickle
 
+# Ubicacion por default del archivo
+_FILE_PATH = "/tmp/juego.bin"
+
 # distancia requerida para que un movimiento sea valido
 _MIN_DISTANCIA = 20
 
@@ -101,7 +104,7 @@ class Juego:
 
         return False
 
-    def guardar_juego(self, path):
+    def guardar_juego(self):
         """
         Guarda los datos de la partida en un archivo
 
@@ -109,7 +112,7 @@ class Juego:
           path (str): direccion del archivo
         """
 
-        archivo = open(path, "wb")
+        archivo = open(_FILE_PATH, "wb")
         pickle.dump(self.jugador, archivo)
         pickle.dump(self.camino_id, archivo)
         pickle.dump(self.moves, archivo)
