@@ -70,11 +70,28 @@ class Juego:
       camino_id (str): Identificador del camino seleccionado
     """
     def __init__(self, jugador, camino, camino_id):
-        self.pos_sig = 1  # el usuario ya esta en posicion 0
         self.camino = camino
         self.jugador = jugador
-        self.moves = []
         self.camino_id = camino_id
+
+        # Recuperamos, si existen, los movimientos guardados
+        try:
+            self.cargar_juego()
+
+            # Obtener el 1er resultado, sino vacio para un jugador nuevo
+            busqueda = (self.hist[k] for k in self.hist.keys()
+                        if k == (self.jugador, self.camino_id))
+            self.moves = next(busqueda, [])
+        except:
+            # Movimientos no encontrados -> creamos unos vacios
+            self.moves = []
+            self.hist = {}
+
+        # Guardamos ya sea porque no existia el archivo o solo el jugador
+        if (len(self.moves) == 0):
+            self.guardar_juego()
+
+        self.pos_sig = len(self.moves) + 1  # el usuario ya esta en posicion 0
 
     def probar_movimiento(self, mov):
         """
@@ -112,8 +129,12 @@ class Juego:
           path (str): direccion del archivo
         """
 
+        self.hist[(self.jugador, self.camino_id)] = self.moves
         archivo = open(_FILE_PATH, "wb")
-        pickle.dump(self.jugador, archivo)
-        pickle.dump(self.camino_id, archivo)
-        pickle.dump(self.moves, archivo)
+        pickle.dump(self.hist, archivo)
+        archivo.close()
+
+    def cargar_juego(self):
+        archivo = open(_FILE_PATH, "rb")
+        self.hist = pickle.load(archivo)
         archivo.close()
