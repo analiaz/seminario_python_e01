@@ -92,6 +92,12 @@ class Juego:
 
         return False
 
+    def cumple_fin_juego(self):
+        if (self.pos_sig == len(self.camino)):
+            return True
+
+        return False
+
     def guardar_juego(self, path):
         """
         Guarda los datos de la partida en un archivo

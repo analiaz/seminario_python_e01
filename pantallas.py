@@ -140,10 +140,20 @@ class PantallaJuego(pilasengine.escenas.Escena):
                 # Se vacian las cajas de entrada
                 self.input_columna.texto = ""
                 self.input_fila.texto = ""
+
+                if (self.partida.cumple_fin_juego()):
+                    self.boton_probar.desactivar()
+                    self.mover_personaje()
+                    self.mostrar_distancia()
             else:
                 self.boton_probar.decir("Incorrecto")
         else:
             self.boton_probar.decir("invalido")
+
+    def mostrar_distancia(self):
+        distancia = juego.distancia_total(self.partida.camino)
+        self.protagonista.decir("He recorrido {} de distancia"
+                                .format(distancia))
 
     def mover_personaje(self):
         """
