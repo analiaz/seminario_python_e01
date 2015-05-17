@@ -37,18 +37,22 @@ class PantallaInicial(pilasengine.escenas.Escena):
         self.input_nombre = self.pilas.interfaz.IngresoDeTexto("")
         self.input_nombre.escala = 2
 
-        self.boton_jugar = self.pilas.interfaz.Boton("Jugar")
-        self.boton_jugar.y -= 200
-        self.boton_jugar.escala = 2
-        self.boton_jugar.conectar(self.ir_al_juego)
+        self.opcion_jugar = self.pilas.interfaz.ListaSeleccion(
+            ["Camino Rojo", "Camino Negro"], self.ir_al_juego
+        )
+        self.opcion_jugar.y -= 200
+        self.opcion_jugar.escala = 2
 
     # cambia la escena si el usuario ingreso un nombre valido
-    def ir_al_juego(self):
+    def ir_al_juego(self, opcion_seleccionada):
         # TO-DO: mejorar la validacion del nombre
         if (self.input_nombre.texto != ""):
-            # TO-DO: añadir soporte para seleccionar camino
-            self.pilas.escenas.PantallaJuego(self.input_nombre.texto,
-                                             BLACK_PATH)
+            if (opcion_seleccionada == "Camino Rojo"):
+                self.pilas.escenas.PantallaJuego(self.input_nombre.texto,
+                                                 RED_PATH)
+            elif (opcion_seleccionada == "Camino Negro"):
+                self.pilas.escenas.PantallaJuego(self.input_nombre.texto,
+                                                 BLACK_PATH)
         else:
             self.boton_jugar.decir("El nombre es invalido")
 
