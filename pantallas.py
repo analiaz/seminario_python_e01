@@ -50,3 +50,10 @@ class PantallaJuego(pilasengine.escenas.Escena):
         self.fondo.imagen = (
             self.pilas.imagenes.cargar('assets/fondo_juego.png')
         )
+
+        self.protagonista = self.pilas.actores.Actor(
+            imagen='assets/personaje.png'
+        )
+        self.protagonista.escala = 0.5
+        self.protagonista.x = col_a_x(2567)
+        self.protagonista.y = fil_a_y(392)
